@@ -11,39 +11,34 @@ export default class Hero {
         this.setEventListeners(attackButtons);
 
         this.animations = this.getAllAnimations();
-        this.setupAnimations();
 
         this.currentAnimation = "idle";
-        //this.playAnimation(this.animations.get(this.currentAnimation), 0, 0, true);
-        this.app.stage.addChild(this.animations.get(this.currentAnimation));
 
-
-
-        //this.currentAnimation = "idle";
-        //this.app.stage.addChild(this.animations.get(this.currentAnimation))
-        //this.animations.get(this.currentAnimation).loop = true;
+        this.player = new PIXI.AnimatedSprite(this.animations["idle"]);
+        this.app.stage.addChild(this.player).play();
     }
 
-    setupAnimations() {
-        this.currentAnimation = this.animations.get("idle");
-        this.playAnimation(this.currentAnimation, 0, 0, true);
-        this.app.stage.removeChild(this.currentAnimation);
 
-        this.currentAnimation = this.animations.get("attack1");
-        this.playAnimation(this.currentAnimation, 0, 0, false);
-        this.app.stage.removeChild(this.currentAnimation);
-    }
 
     getAllAnimations() {
-        let animations = new Map();
+        //let animations = new Map();
+        let animations = [];
 
         const idle = this.animateIdle();
         const attack1 = this.animateSkill1();
+        attack1.onComplete = () => {
+            this.app.stage.removeChild(this.animations.get(this.currentAnimation));
+        }
         const attack2 = this.animateSkill2();
         const attack3 = this.animateSkill3();
         const attack4 = this.animateSkill4();
 
-        animations.set("idle", idle);
+        animations["idle"] = idle;
+        animations["attack1"] = attack1;
+        animations["attack2"] = attack2;
+        animations["attack3"] = attack3;
+        animations["attack4"] = attack4;
+        /*animations.set("idle", idle);
         animations.set("attack1", attack1);
         animations.set("attack2", attack2);
         animations.set("attack3", attack3);
@@ -53,7 +48,7 @@ export default class Hero {
         animations.get("attack1").name = "attack1";
         animations.get("attack2").name = "attack2";
         animations.get("attack3").name = "attack3";
-        animations.get("attack4").name = "attack4";
+        animations.get("attack4").name = "attack4";*/
 
         return animations;
 
@@ -84,8 +79,8 @@ export default class Hero {
             frames.push(frame);
         }
 
-        const hero = new PIXI.AnimatedSprite(frames);
-        return hero;
+        //const hero = new PIXI.AnimatedSprite(frames);
+        return frames;
         /*hero.position.set(0, 0);
         this.app.stage.addChild(hero);
         //hero.loop = false;
@@ -94,12 +89,8 @@ export default class Hero {
         //this.animationObject = hero;
     }
 
-    playAnimation(animation, positionX, positionY, loopable) {
-
+    playAnimation(animation, positionX, positionY) {
         animation.position.set(positionX, positionY);
-        animation.loop = loopable;
-
-
         this.app.stage.addChild(animation);
 
         /*hero.onComplete = () => {
@@ -116,6 +107,7 @@ export default class Hero {
         }*/
 
         animation.play();
+        this.currentAnimation = animation;
     }
 
     animateSkill1() {
@@ -130,7 +122,8 @@ export default class Hero {
             frames.push(frame);
         }
 
-        const hero = new PIXI.AnimatedSprite(frames);
+        //const hero = new PIXI.AnimatedSprite(frames);
+        return frames;
         /*hero.position.set(0, 0);
         this.app.stage.addChild(hero);
         hero.loop = false;
@@ -143,8 +136,6 @@ export default class Hero {
     
     
         hero.play();*/
-        return hero;
-
     }
 
     animateSkill2() {
@@ -159,8 +150,8 @@ export default class Hero {
             frames.push(frame);
         }
 
-        const hero = new PIXI.AnimatedSprite(frames);
-        return hero;
+        //const hero = new PIXI.AnimatedSprite(frames);
+        return frames;
         /*hero.position.set(0, 0);
         this.app.stage.addChild(hero);
         hero.loop = false;
@@ -187,8 +178,8 @@ export default class Hero {
             frames.push(frame);
         }
 
-        const hero = new PIXI.AnimatedSprite(frames);
-        return hero;
+        //const hero = new PIXI.AnimatedSprite(frames);
+        return frames;
         /*hero.position.set(0, 0);
         this.app.stage.addChild(hero);
         hero.loop = false;
@@ -215,8 +206,8 @@ export default class Hero {
             frames.push(frame);
         }
 
-        const hero = new PIXI.AnimatedSprite(frames);
-        return hero;
+        //const hero = new PIXI.AnimatedSprite(frames);
+        return frames;
         /*hero.position.set(0, 0);
         this.app.stage.addChild(hero);
         hero.loop = false;
@@ -261,105 +252,66 @@ export default class Hero {
         return [a1, a2, a3, a4];
     }
 
-
     setEventListeners(arr) {
 
         arr[0].interactive = true;
         arr[0].on('pointerdown', () => {
-            //this.app.stage.removeChild(this.animations.get(this.currentAnimation))
-            //this.app.stage.addChild(this.animations.get(this.currentAnimation)
-
-            /*this.app.stage.removeChild(this.animations.get(this.currentAnimation));
             this.currentAnimation = "attack1";
-            this.animations.get(this.currentAnimation).loop = false;
-            this.app.stage.addChild(this.animations.get(this.currentAnimation)).play();
 
-            this.animations.get(this.currentAnimation).onComplete = () => {
-                console
-            }*/
+            this.player.textures = this.animations[this.currentAnimation];
+            this.player.loop = false;
+            this.player.play();
 
-
-
-            /*if(this.animations.get(this.currentAnimation).visible) {
-                this.animations.get(this.currentAnimation).visible = false;
-            } else {
-                this.animations.get(this.currentAnimation).visible = true;
-            }*/
-
-
-        });
-
-        arr[1].interactive = true;
-        arr[1].on('pointerdown', () => {
-
-        });
-
-        /*arr[0].on('pointerdown', () => {
-
-            console.log(this.app.stage.children);
-            //this.app.stage.removeChild(this.animations.get(this.currentAnimation));
-            
-            console.log(this.app.stage.children);
-
-            this.currentAnimation = "attack1";
-            this.animations.get(this.currentAnimation).loop = false;
-            this.app.stage.addChild(this.animations.get(this.currentAnimation)).play();
-
-
-            this.animations.get(this.currentAnimation).onComplete = () => {
-                console.log(this.app.stage.children);
-                this.app.stage.removeChild(this.animations.get(this.currentAnimation));
-                console.log(this.app.stage.children);
-                //this.currentAnimation = "idle";
-                //this.app.stage.addChild(this.animations.get(this.currentAnimation)).play();
-                //console.log(this.app.stage.children);
-            }
-        });*/
-
-        /*arr[1].interactive = true;
-        arr[1].on('pointerdown', () => {
-            this.app.stage.removeChild(this.animations.get(this.currentAnimation));
-            this.currentAnimation = "attack1";
-            this.animations.get(this.currentAnimation).loop = false;
-            this.app.stage.addChild(this.animations.get(this.currentAnimation)).play();
-
-            this.animations.get(this.currentAnimation).onComplete = () => {
-                this.app.stage.removeChild(this.animations.get(this.currentAnimation));
+            this.player.onComplete = () => {
                 this.currentAnimation = "idle";
-                this.app.stage.addChild(this.animations.get(this.currentAnimation)).play();
-
-                //this.currentAnimation = "idle";
-                //this.app.stage.addChild(this.animations.get(this.currentAnimation));
-
+                this.player.textures = this.animations[this.currentAnimation];
+                this.player.play();
             }
-        });*/
+        });
 
-        arr[0].interactive = true;
-        arr[0].on('pointerdown', () => {
-            //this.animationObject.destroy();
-            this.animateSkill1();
-            this.app.stage.getChildByName("ButtonsContainer").visible = false;
-        })
-    
         arr[1].interactive = true;
         arr[1].on('pointerdown', () => {
-            //this.animationObject.destroy();
-            this.animateSkill2();
-            this.app.stage.getChildByName("ButtonsContainer").visible = false;
+            this.currentAnimation = "attack2";
+
+            this.player.textures = this.animations[this.currentAnimation];
+            this.player.loop = false;
+            this.player.play();
+
+            this.player.onComplete = () => {
+                this.currentAnimation = "idle";
+                this.player.textures = this.animations[this.currentAnimation];
+                this.player.play();
+            }
         })
 
         arr[2].interactive = true;
         arr[2].on('pointerdown', () => {
-            this.animationObject.destroy();
-            this.animateSkill3();
-            this.app.stage.getChildByName("ButtonsContainer").visible = false;
+            this.currentAnimation = "attack3";
+
+            this.player.textures = this.animations[this.currentAnimation];
+            this.player.loop = false;
+            this.player.play();
+
+            this.player.onComplete = () => {
+                this.currentAnimation = "idle";
+                this.player.textures = this.animations[this.currentAnimation];
+                this.player.play();
+            }
         })
-    
+
         arr[3].interactive = true;
         arr[3].on('pointerdown', () => {
-            this.animationObject.destroy();
-            this.animateSkill4();
-            this.app.stage.getChildByName("ButtonsContainer").visible = false;
+            this.currentAnimation = "attack4";
+
+            this.player.textures = this.animations[this.currentAnimation];
+            this.player.loop = false;
+            this.player.play();
+
+            this.player.onComplete = () => {
+                this.currentAnimation = "idle";
+                this.player.textures = this.animations[this.currentAnimation];
+                this.player.play();
+            }
         })
 
 
