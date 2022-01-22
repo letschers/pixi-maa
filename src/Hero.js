@@ -15,6 +15,10 @@ export default class Hero {
         this.currentAnimation = "idle";
         this.player = new PIXI.AnimatedSprite(this.animations["idle"]);
         this.app.stage.addChild(this.player).play();
+        //this.player.x = 500;
+        //this.player.y = 200;
+        //this.player.anchor.set(0.5);
+
     }
 
     getAllAnimations() {
