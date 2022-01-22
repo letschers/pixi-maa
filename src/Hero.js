@@ -13,15 +13,11 @@ export default class Hero {
         this.animations = this.getAllAnimations();
 
         this.currentAnimation = "idle";
-
         this.player = new PIXI.AnimatedSprite(this.animations["idle"]);
         this.app.stage.addChild(this.player).play();
     }
 
-
-
     getAllAnimations() {
-        //let animations = new Map();
         let animations = [];
 
         const idle = this.animateIdle();
@@ -38,33 +34,8 @@ export default class Hero {
         animations["attack2"] = attack2;
         animations["attack3"] = attack3;
         animations["attack4"] = attack4;
-        /*animations.set("idle", idle);
-        animations.set("attack1", attack1);
-        animations.set("attack2", attack2);
-        animations.set("attack3", attack3);
-        animations.set("attack4", attack4);
-
-        animations.get("idle").name = "idle";
-        animations.get("attack1").name = "attack1";
-        animations.get("attack2").name = "attack2";
-        animations.get("attack3").name = "attack3";
-        animations.get("attack4").name = "attack4";*/
 
         return animations;
-
-        /*idle.position.set(0, 0);
-        this.app.stage.addChild(idle);
-        idle.loop = false;
-        idle.play();
-    
-        idle.onComplete = () => {
-            
-            idle.visible = false;
-            
-            this.app.stage.addChild(attack1);
-            attack1.position.set(0, 0);
-            attack1.play();
-        }*/
     }
 
     animateIdle() {
@@ -79,35 +50,7 @@ export default class Hero {
             frames.push(frame);
         }
 
-        //const hero = new PIXI.AnimatedSprite(frames);
         return frames;
-        /*hero.position.set(0, 0);
-        this.app.stage.addChild(hero);
-        //hero.loop = false;
-        hero.play();*/
-
-        //this.animationObject = hero;
-    }
-
-    playAnimation(animation, positionX, positionY) {
-        animation.position.set(positionX, positionY);
-        this.app.stage.addChild(animation);
-
-        /*hero.onComplete = () => {
-            hero.destroy();
-            this.app.stage.getChildByName("ButtonsContainer").visible = true;
-            this.animateIdle();
-        }*/
-
-        /*this.currentAnimation.onComplete = () => {
-            this.currentAnimation.visible = false;
-            this.currentAnimation = this.animations.get("idle");
-            this.playAnimation(this.currentAnimation, 0, 0, true);
-            this.currentAnimation.visible = true;
-        }*/
-
-        animation.play();
-        this.currentAnimation = animation;
     }
 
     animateSkill1() {
@@ -122,20 +65,7 @@ export default class Hero {
             frames.push(frame);
         }
 
-        //const hero = new PIXI.AnimatedSprite(frames);
         return frames;
-        /*hero.position.set(0, 0);
-        this.app.stage.addChild(hero);
-        hero.loop = false;
-    
-        hero.onComplete = () => {
-            hero.destroy();
-            this.app.stage.getChildByName("ButtonsContainer").visible = true;
-            this.animateIdle();
-        }
-    
-    
-        hero.play();*/
     }
 
     animateSkill2() {
@@ -150,20 +80,7 @@ export default class Hero {
             frames.push(frame);
         }
 
-        //const hero = new PIXI.AnimatedSprite(frames);
         return frames;
-        /*hero.position.set(0, 0);
-        this.app.stage.addChild(hero);
-        hero.loop = false;
-    
-        hero.onComplete = () => {
-            hero.destroy();
-            this.app.stage.getChildByName("ButtonsContainer").visible = true;
-            this.animateIdle();
-        }
-    
-    
-        hero.play();*/
     }
 
     animateSkill3() {
@@ -178,20 +95,7 @@ export default class Hero {
             frames.push(frame);
         }
 
-        //const hero = new PIXI.AnimatedSprite(frames);
         return frames;
-        /*hero.position.set(0, 0);
-        this.app.stage.addChild(hero);
-        hero.loop = false;
-    
-        hero.onComplete = () => {
-            hero.destroy();
-            this.app.stage.getChildByName("ButtonsContainer").visible = true;
-            this.animateIdle();
-        }
-    
-    
-        hero.play();*/
     }
 
     animateSkill4() {
@@ -205,21 +109,7 @@ export default class Hero {
             }
             frames.push(frame);
         }
-
-        //const hero = new PIXI.AnimatedSprite(frames);
         return frames;
-        /*hero.position.set(0, 0);
-        this.app.stage.addChild(hero);
-        hero.loop = false;
-    
-        hero.onComplete = () => {
-            hero.destroy();
-            this.app.stage.getChildByName("ButtonsContainer").visible = true;
-            this.animateIdle();
-        }
-    
-    
-        hero.play();*/
     }
 
     showAttackButtons() {
@@ -253,11 +143,11 @@ export default class Hero {
     }
 
     setEventListeners(arr) {
-
         arr[0].interactive = true;
         arr[0].on('pointerdown', () => {
-            this.currentAnimation = "attack1";
+            this.app.stage.getChildByName("ButtonsContainer").visible = false;
 
+            this.currentAnimation = "attack1";
             this.player.textures = this.animations[this.currentAnimation];
             this.player.loop = false;
             this.player.play();
@@ -266,13 +156,15 @@ export default class Hero {
                 this.currentAnimation = "idle";
                 this.player.textures = this.animations[this.currentAnimation];
                 this.player.play();
+                this.app.stage.getChildByName("ButtonsContainer").visible = true;
             }
         });
 
         arr[1].interactive = true;
         arr[1].on('pointerdown', () => {
-            this.currentAnimation = "attack2";
+            this.app.stage.getChildByName("ButtonsContainer").visible = false;
 
+            this.currentAnimation = "attack2";
             this.player.textures = this.animations[this.currentAnimation];
             this.player.loop = false;
             this.player.play();
@@ -281,13 +173,15 @@ export default class Hero {
                 this.currentAnimation = "idle";
                 this.player.textures = this.animations[this.currentAnimation];
                 this.player.play();
+                this.app.stage.getChildByName("ButtonsContainer").visible = true;
             }
         })
 
         arr[2].interactive = true;
         arr[2].on('pointerdown', () => {
-            this.currentAnimation = "attack3";
+            this.app.stage.getChildByName("ButtonsContainer").visible = false;
 
+            this.currentAnimation = "attack3";
             this.player.textures = this.animations[this.currentAnimation];
             this.player.loop = false;
             this.player.play();
@@ -296,13 +190,15 @@ export default class Hero {
                 this.currentAnimation = "idle";
                 this.player.textures = this.animations[this.currentAnimation];
                 this.player.play();
+                this.app.stage.getChildByName("ButtonsContainer").visible = true;
             }
         })
 
         arr[3].interactive = true;
         arr[3].on('pointerdown', () => {
-            this.currentAnimation = "attack4";
+            this.app.stage.getChildByName("ButtonsContainer").visible = false;
 
+            this.currentAnimation = "attack4";
             this.player.textures = this.animations[this.currentAnimation];
             this.player.loop = false;
             this.player.play();
@@ -311,18 +207,8 @@ export default class Hero {
                 this.currentAnimation = "idle";
                 this.player.textures = this.animations[this.currentAnimation];
                 this.player.play();
+                this.app.stage.getChildByName("ButtonsContainer").visible = true;
             }
         })
-
-
-        /*arr.forEach(element => {
-            element.interactive = true;
-            element.on('pointerdown', () => {
-                console.log("Click!");
-                this.animationObject.destroy();
-                this.app.stage.getChildByName("ButtonsContainer").visible = false;
-                this.animationObject = this.animateSkill1();
-            })
-        });*/
     }
 }
