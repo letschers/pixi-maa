@@ -1,8 +1,8 @@
-import { animate } from "./Animation.js";
 
 export default class Hero {
 
-    constructor(name, app) {
+    
+    constructor(name, app, posX, posY) {
         this.name = name;
         this.filePath = `./Assets/${name}/`;
         this.app = app;
@@ -15,10 +15,9 @@ export default class Hero {
         this.currentAnimation = "idle";
         this.player = new PIXI.AnimatedSprite(this.animations["idle"]);
         this.app.stage.addChild(this.player).play();
-        //this.player.x = 500;
-        //this.player.y = 200;
+        this.player.x = posX;
+        this.player.y = posY;
         //this.player.anchor.set(0.5);
-
     }
 
     getAllAnimations() {
