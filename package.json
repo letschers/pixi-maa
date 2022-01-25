@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "nodemon app.ts",
+    "clear": "rm -rf build/",
     "build": "tsc --project ./"
   },
   "repository": {

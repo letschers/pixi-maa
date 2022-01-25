@@ -4,3 +4,5 @@ const hero: Hero = {
     name: "Eduardo",
     age: 18,
 }
+
+console.log("Hello teste!");
