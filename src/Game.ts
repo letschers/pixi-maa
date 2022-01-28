@@ -1,6 +1,15 @@
 import { Application, Sprite, Container } from "pixi.js";
 
-export default class Game {
+export default class Game /*extends Application*/ {
+
+    /*constructor(width: number, height: number) {
+        super({
+            width: width,
+            height: height,
+            antialias: true,
+            backgroundColor: 0xff0000
+        })
+    }*/
 
     private app: Application;
     private actualContainer!: Container;
@@ -83,9 +92,9 @@ export default class Game {
 
         return [e1Bar, e2Bar, e3Bar];
 
-        /*this.app.stage.addChild(p1Bar);
-        this.app.stage.addChild(p2Bar);
-        this.app.stage.addChild(p3Bar);*/
+        //this.app.stage.addChild(p1Bar);
+        //this.app.stage.addChild(p2Bar);
+        //this.app.stage.addChild(p3Bar);
     }
 
     private getBackground(): Sprite[] {
