@@ -1,9 +1,8 @@
-import { Application } from "pixi.js"
+import Game from "./Game";
 
-const app = new Application({
-    width: 765,
-    height: 765,
-    antialias: true,
-    backgroundColor: 0xcccccc
-});
-document.body.appendChild(app.view);
+
+const app = new Game(765, 765);
+
+
+app.setBattleBackground();
+
