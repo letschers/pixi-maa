@@ -1,0 +1,4 @@
+interface Hero {
+    name: string;
+    
+}

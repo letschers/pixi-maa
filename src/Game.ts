@@ -11,7 +11,7 @@ export default class Game /*extends Application*/ {
         })
     }*/
 
-    private app: Application;
+    public app: Application;
     private actualContainer!: Container;
 
     constructor(width: number, height: number) {
