@@ -1,4 +1,4 @@
-import { Application, Sprite, Container } from "pixi.js";
+import { Application, Sprite, Container, Ticker } from "pixi.js";
 
 export default class Game /*extends Application*/ {
 
@@ -23,8 +23,13 @@ export default class Game /*extends Application*/ {
             width: width,
             height: height,
             antialias: true,
-            backgroundColor: 0xff0000
+            backgroundColor: 0xff0000,
+            sharedTicker: true
         });
+
+        const ticker = Ticker.shared;
+        ticker.maxFPS = 30;
+
         document.body.appendChild(app.view);
 
         return app;
