@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 
 module.exports = {
     devtool: "eval-source-map",
@@ -20,8 +21,13 @@ module.exports = {
         filename: "bundle.js",
         path: path.resolve(__dirname, "public")
     },
-
     experiments: {
         topLevelAwait: true
+    },
+    module: {
+        rules: [
+            { test: /\.png$/, use: 'file-loader' },
+            { test: /\.ts$/, use: 'ts-loader' }
+        ],
     }
 }
