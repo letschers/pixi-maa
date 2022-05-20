@@ -1,25 +1,19 @@
 import Game from "./Game";
-import { Hero } from "./interfaces/Hero.h";
-
-
 
 const app = new Game(765, 765);
-
-
-
 app.setBattleBackground();
 
 
 
 
-const instantiateHero = async (): Promise<Hero> => {
+/*const instantiateHero = async (): Promise<Hero> => {
     const heroClass = await import("./heroes/CaptainAmerica");
     const hero = new heroClass.default();
 
     return hero;
 }
 
-const captainAmerica = await instantiateHero();
+const captainAmerica = await instantiateHero();*/
 
 //TODO public setup animations to async generation of animations
 //captainAmerica.setupAnimations();

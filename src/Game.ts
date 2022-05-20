@@ -1,10 +1,11 @@
-import { Application, Sprite, Container, Ticker, DisplayObject } from "pixi.js";
+import { Application, Sprite, Container, Ticker, DisplayObject, Loader } from "pixi.js";
 import { Hero } from "./interfaces/Hero.h";
 
-export default class Game {
-
+export default class Game  {
     public app: Application;
     private actualContainer!: Container;
+    private imagesPath: string = "./assets/"; 
+    public loader: Loader = new Loader();
 
     constructor(width: number, height: number) {
         this.app = this.createCanvas(width, height);
@@ -23,7 +24,6 @@ export default class Game {
         ticker.maxFPS = 30;
 
         document.body.appendChild(app.view);
-
         return app;
     }
 
@@ -124,9 +124,9 @@ export default class Game {
     }
 
     private setAllyBattleInfo(): Sprite[] {
-        const p1Bar = Sprite.from("./Assets/Background/Down_Info/ally_idle.png");
-        const p2Bar = Sprite.from("./Assets/Background/Down_Info/ally_idle.png");
-        const p3Bar = Sprite.from("./Assets/Background/Down_Info/ally_idle.png");
+        const p1Bar = Sprite.from(this.imagesPath + "background/down_info/ally_idle.png");
+        const p2Bar = Sprite.from(this.imagesPath + "background/down_info/ally_idle.png");
+        const p3Bar = Sprite.from(this.imagesPath + "background/down_info/ally_idle.png");
 
         p1Bar.x = 8;
         p1Bar.y = 585;
@@ -141,16 +141,12 @@ export default class Game {
         p3Bar.name = "Player3Bar";
 
         return [p1Bar, p2Bar, p3Bar];
-
-        //this.app.stage.addChild(p1Bar);
-        //this.app.stage.addChild(p2Bar);
-        //this.app.stage.addChild(p3Bar);
     }
 
     private setEnemyBattleInfo(): Sprite[] {
-        const e1Bar = Sprite.from("./Assets/Background/Down_Info/enemy.png");
-        const e2Bar = Sprite.from("./Assets/Background/Down_Info/enemy.png");
-        const e3Bar = Sprite.from("./Assets/Background/Down_Info/enemy.png");
+        const e1Bar = Sprite.from(this.imagesPath + "background/down_info/enemy.png");
+        const e2Bar = Sprite.from(this.imagesPath + "background/down_info/enemy.png");
+        const e3Bar = Sprite.from(this.imagesPath + "background/down_info/enemy.png");
 
         //8 base
 
@@ -168,19 +164,15 @@ export default class Game {
         e1Bar.name = "Enemy3Bar";
 
         return [e1Bar, e2Bar, e3Bar];
-
-        //this.app.stage.addChild(p1Bar);
-        //this.app.stage.addChild(p2Bar);
-        //this.app.stage.addChild(p3Bar);
     }
 
     private setBackground(): Sprite[] {
-        const bg = Sprite.from("./Assets/Background/Combat_Background_001.jpg");
-        //this.app.stage.addChild(bg);
+        
+        const bg = Sprite.from(this.imagesPath + "background/combat_background_001.jpg");
         bg.x = 3;
         bg.name = "Background Image";
 
-        const battleInfo = Sprite.from("./Assets/Background/Battle_Information.png");
+        const battleInfo = Sprite.from(this.imagesPath + "background/battle_information.png");
         battleInfo.y = 580;
         battleInfo.name = "BattleInfo";
 

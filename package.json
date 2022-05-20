@@ -2,7 +2,7 @@
   "name": "pixi-maa",
   "version": "1.0.0",
   "description": "Recreation of Marvel Avengers ALliance",
-  "main": "index.js",
+  "private": "true",
   "scripts": {
     "serve": "webpack-dev-server",
     "build": "webpack",

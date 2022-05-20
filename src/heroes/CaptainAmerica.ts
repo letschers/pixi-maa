@@ -9,16 +9,13 @@ export default class CaptainAmerica implements Hero {
     public name: string;
     public animations: Map<string, Texture[]> = new Map();
     public sprite!: AnimatedSprite;
-    private filePath: string = "./Assets/Captain America";
+    private filePath: string = "./assets/captain-america";
 
     constructor() {
         this.name = "Captain America";
-        /*this.setupAnimations();
-        this.sprite = new AnimatedSprite(this.animations.get("idle")!);
-        this.sprite.play();*/
     }
 
-    importAll(r: any) {
+    importAll(r: any) { 
         return r.keys().map(r);
     }
 
