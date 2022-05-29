@@ -1,31 +1,61 @@
-import { Application, Sprite, Container, Ticker, DisplayObject, Loader } from "pixi.js";
+import { Application, Sprite, Container, Ticker, DisplayObject, Loader, AnimatedSprite, Spritesheet, Texture } from "pixi.js";
+import CaptainAmerica from "./heroes/CaptainAmerica";
 import { Hero } from "./interfaces/Hero.h";
 
-export default class Game  {
+export default class Game {
     public app: Application;
     private actualContainer!: Container;
-    private imagesPath: string = "./assets/"; 
+    private imagesPath: string = "./assets/";
     public loader: Loader = new Loader();
+    public heroAnimations: Map<string, Texture[]> = new Map();
+    public heros: Hero[] = [];
+
 
     constructor(width: number, height: number) {
-        this.app = this.createCanvas(width, height);
-    }
-
-    private createCanvas(width: number, height: number): Application {
-        const app = new Application({
+        this.app = new Application({
             width: width,
             height: height,
             antialias: true,
             backgroundColor: 0xff0000,
-            sharedTicker: true
+            sharedTicker: true,
         });
 
         const ticker = Ticker.shared;
-        ticker.maxFPS = 30;
+        ticker.maxFPS = 60;
+        document.body.appendChild(this.app.view);
 
-        document.body.appendChild(app.view);
-        return app;
+        this.app.loader.add([
+            { name: "idle", url: "/assets/captain-america/idle/spritesheet.json" },
+            { name: "attack-1", url: "/assets/captain-america/attack-1/spritesheet.json" },
+            { name: "attack-2", url: "/assets/captain-america/attack-2/spritesheet.json" },
+            { name: "attack-3", url: "/assets/captain-america/attack-3/spritesheet.json" },
+            { name: "attack-4", url: "/assets/captain-america/attack-4/spritesheet.json" },
+        ]).load(() => {
+            Object.entries(this.app.loader.resources).map((elem) => {
+                elem[1].spritesheet?.parse((textures) => {
+                    this.heroAnimations.set(elem[0], Object.values(textures as object));
+                })
+            })
+            this.initGame();
+        })
     }
+
+    public initGame() {
+        this.setBattleBackground();
+
+        this.heros.push(new CaptainAmerica(this.heroAnimations))
+        this.addCharacter(100, 100, this.heros[0])
+        this.setAttackIcons(this.heros[0].getButtonsSprites(), this.heros[0]);
+
+    }
+
+
+
+    //load assets then init game
+    public loadAssets(heroPath: string): AnimatedSprite[] {
+        throw "Not implemented yet";
+    }
+
 
     public setAttackIcons(heroIcons: Sprite[], hero: Hero): void {
         const attackIconsContainer = new Container();
@@ -48,58 +78,57 @@ export default class Game  {
         heroIcons[3].y = 530;
 
         this.app.stage.addChild(attackIconsContainer);
-
         this.setAttackIconsEventListener(attackIconsContainer.children, hero)
     }
 
     public setAttackIconsEventListener(heroIcons: DisplayObject[], hero: Hero): void {
         heroIcons[0].interactive = true;
         heroIcons[0].on('pointerdown', () => {
-            hero.playAnimationFromTexture(hero.animations.get("attack1")!);
+            hero.playAnimation("attack-1", true);
             this.app.stage.getChildByName("attackIconsContainer").visible = false;
 
-            hero.sprite.onComplete = () => {
-                hero.sprite.textures = hero.animations.get("idle")!;
-                hero.sprite.play();
+            this.heros[0].sprite.onComplete = () => {
+                hero.playAnimation("idle");
                 this.app.stage.getChildByName("attackIconsContainer").visible = true;
             }
         });
 
+        //heroIcons[0].on('pointerdown', () => { hero.sprite.visible === true ? hero.sprite.visible = false : hero.sprite.visible = true; })
+        //heroIcons[0].on('pointerdown', () => { hero.sprite.playing === true ? hero.sprite.stop() : hero.sprite.play() })
+
         heroIcons[1].interactive = true;
         heroIcons[1].on('pointerdown', () => {
-            hero.playAnimationFromTexture(hero.animations.get("attack2")!);
+            hero.playAnimation("attack-2", true);
             this.app.stage.getChildByName("attackIconsContainer").visible = false;
 
-            hero.sprite.onComplete = () => {
-                hero.sprite.textures = hero.animations.get("idle")!;
-                hero.sprite.play();
+            this.heros[0].sprite.onComplete = () => {
+                hero.playAnimation("idle");
                 this.app.stage.getChildByName("attackIconsContainer").visible = true;
             }
         });
 
         heroIcons[2].interactive = true;
         heroIcons[2].on('pointerdown', () => {
-            hero.playAnimationFromTexture(hero.animations.get("attack3")!);
+            hero.playAnimation("attack-3", true);
             this.app.stage.getChildByName("attackIconsContainer").visible = false;
 
-            hero.sprite.onComplete = () => {
-                hero.sprite.textures = hero.animations.get("idle")!;
-                hero.sprite.play();
+            this.heros[0].sprite.onComplete = () => {
+                hero.playAnimation("idle");
                 this.app.stage.getChildByName("attackIconsContainer").visible = true;
             }
         });
 
         heroIcons[3].interactive = true;
         heroIcons[3].on('pointerdown', () => {
-            hero.playAnimationFromTexture(hero.animations.get("attack4")!);
+            hero.playAnimation("attack-4", true);
             this.app.stage.getChildByName("attackIconsContainer").visible = false;
 
-            hero.sprite.onComplete = () => {
-                hero.sprite.textures = hero.animations.get("idle")!;
-                hero.sprite.play();
+            this.heros[0].sprite.onComplete = () => {
+                hero.playAnimation("idle");
                 this.app.stage.getChildByName("attackIconsContainer").visible = true;
             }
         });
+
     }
 
     public setBattleBackground(): void {
@@ -110,14 +139,14 @@ export default class Game  {
         this.actualContainer.addChild(...this.setEnemyBattleInfo());
         this.actualContainer.addChild(...this.setAllyBattleInfo());
 
-        this.app.stage.addChild(this.actualContainer);        
+        this.app.stage.addChild(this.actualContainer);
     }
 
     public removeBattleBackground(): void {
         this.app.stage.removeChild(this.app.stage.getChildByName("BattleContainer"));
     }
 
-    public addCharacter(x: number, y: number, hero: any): void {
+    public addCharacter(x: number, y: number, hero: Hero): void {
         this.actualContainer.addChild(hero.sprite);
         hero.sprite.x = -100;
         hero.sprite.y = y;
@@ -167,7 +196,7 @@ export default class Game  {
     }
 
     private setBackground(): Sprite[] {
-        
+
         const bg = Sprite.from(this.imagesPath + "background/combat_background_001.jpg");
         bg.x = 3;
         bg.name = "Background Image";

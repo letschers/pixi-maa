@@ -1,4 +1,6 @@
 /node_modules
-/build
 package-lock.json
-/public/bundle.js
+/dist/bundle.js
+./package-lock.json
+src/*/*.js
+src/*/*.js.map

@@ -1,4 +1,4 @@
-import { Application, Sprite, Container, Ticker, DisplayObject } from "pixi.js";
+/*import { Application, Sprite, Container, Ticker, DisplayObject } from "pixi.js";
 import { Hero } from "../src/interfaces/Hero.h";
 
 export default class Game  {
@@ -178,4 +178,4 @@ export default class Game  {
 
         return [bg, battleInfo];
     }
-}
+}*/
