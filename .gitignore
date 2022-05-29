@@ -4,3 +4,5 @@ package-lock.json
 ./package-lock.json
 src/*/*.js
 src/*/*.js.map
+src/*.js.map
+src/*.js 
